@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
+import ShowProfile from './components/ShowProfile'
+import EditProfile from './components/EditProfile'
 
 class App extends Component {
   state = {
@@ -10,9 +12,8 @@ class App extends Component {
     }
   }
 
-  onChangeFirstName = (event) => {
-    const input = event.target
-    const newFirstName = input.value
+  onChangeFirstName = (newName) => {
+    const newFirstName = newName
     this.setState((prevState) => {
       const user = prevState.user
       const newUser = { ...user, firstName: newFirstName}
@@ -22,9 +23,8 @@ class App extends Component {
     })
   }
 
-  onChangeLastName = (event) => {
-    const input = event.target
-    const newLastName = input.value
+  onChangeLastName = (newName) => {
+    const newLastName = newName
     this.setState((prevState) => {
       const user = prevState.user
       const newUser = { ...user, lastName: newLastName}
@@ -34,9 +34,8 @@ class App extends Component {
     })
   }
 
-  onChangeImage = (event) => {
-    const input = event.target
-    const newImage = input.value
+  onChangeImage = (newPic) => {
+    const newImage = newPic
     this.setState((prevState) => {
       const user = prevState.user
       const newUser = { ...user, profileImageURL: newImage}
@@ -52,31 +51,27 @@ class App extends Component {
     return (
       <div className="App">
         <h1>LinkedIn Profile Editor</h1>
-        <img src={user.profileImageURL}/>
-        <p>Name: {user.firstName } {user.lastName}</p>
-        <label>
-          First name:
-          {' '}
-          <input value={ user.firstName }
-            onChange={ this.onChangeFirstName }
-          />
-        </label>
-        <label>
-          Last name:
-          {' '}
-          <input value={ user.lastName }
-            onChange={ this.onChangeLastName }
-          />
-        </label>
-        <div>
-          <label>
-            Image URL:
-            {' '}
-            <input value={ user.profileImageURL }
-              onChange={ this.onChangeImage }
-            />
-          </label>
-        </div>
+        <ShowProfile firstName={user.firstName} lastName={user.lastName}
+        imageURL={user.profileImageURL}/>
+        <EditProfile firstName={user.firstName}
+          lastName={user.lastName}
+          imageURL={user.profileImageURL}
+          editFirst={
+            (newName) => {
+              this.onChangeFirstName(newName)
+            }
+          }
+          editLast={
+            (newName) => {
+              this.onChangeLastName(newName)
+            }
+          }
+          editImage={
+            (newPic) => {
+              this.onChangeImage(newPic)
+            }           
+          }
+        />
       </div>
     );
   }
